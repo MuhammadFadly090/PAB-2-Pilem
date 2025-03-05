@@ -1,4 +1,5 @@
 import 'package:film/models/movie.dart';
+import 'package:film/screens/detail_screen.dart';
 import 'package:film/services/api_service.dart';
 import 'package:flutter/material.dart';
 
@@ -101,31 +102,37 @@ class _HomeScreenState extends State<HomeScreen> {
             itemCount: movies.length,
             itemBuilder: (BuildContext context, index) {
               final movie = movies[index];
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Image.network(
-                      'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                      height: 150,
-                      width: 150,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Icon(Icons.error);
-                      },
-                    ),
-                    const SizedBox(
-                      height: 5
+              return GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DetailScreen(movie: movie, ))
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Image.network(
+                        'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                        height: 150,
+                        width: 150,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Icon(Icons.error);
+                        },
                       ),
-                    Text(
-                      movie.title.length > 14
-                          ? '${movie.title.substring(0, 10)}....'
-                          : movie.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                      const SizedBox(
+                        height: 5
+                        ),
+                      Text(
+                        movie.title.length > 14
+                            ? '${movie.title.substring(0, 10)}....'
+                            : movie.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },
